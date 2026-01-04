@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using TickCombat.Effect;
 
 namespace TickCombat.Entity
 {
@@ -17,6 +19,9 @@ namespace TickCombat.Entity
 
         bool _isAlive = true;
 
+        // ===== EFFECT SYSTEM ===== (MỚI)
+        readonly List<StatusEffect> activeEffects = new();
+
         // ===== PROPERTIES (READ-ONLY) =====
         public float MaxHp => _maxHp;
         public float Hp => _hp;
@@ -32,6 +37,32 @@ namespace TickCombat.Entity
         public event Action<float> OnShieldGained;
         public event Action<float> OnHealed;
         public event Action OnDeath;
+
+        // ===== EFFECT API ===== (MỚI)
+        public void AddEffect(StatusEffect effect)
+        {
+            activeEffects.Add(effect);
+        }
+
+        /// <summary>
+        /// Tick tất cả effects, remove expired
+        /// Được gọi từ StatusProcessor.ResolveTick() TRƯỚC xử lý damage
+        /// </summary>
+        internal void TickEffects(int currentTick)
+        {
+            // Tick tất cả
+            foreach (var effect in activeEffects)
+            {
+                effect.Tick(currentTick);
+            }
+
+            // Remove expired (backward loop để tránh index shift)
+            for (int i = activeEffects.Count - 1; i >= 0; i--)
+            {
+                if (activeEffects[i].IsExpired(currentTick))
+                    activeEffects.RemoveAt(i);
+            }
+        }
 
         // ===== INTERNAL MUTATORS (CHỈ StatusProcessor gọi) =====
         internal void SetHp(float value)

@@ -69,5 +69,15 @@ namespace TickCombat.Passive
                     return true;
             return false;
         }
+
+        // ===== POST-DAMAGE HOOK ===== (MỚI)
+        internal void TriggerPostDamage(Status target, float shieldBefore, float shieldAfter)
+        {
+            foreach (var p in _activePassives)
+            {
+                if (p is IPostDamageEffect post)
+                    post.OnPostDamage(target, shieldBefore, shieldAfter);
+            }
+        }
     }
 }

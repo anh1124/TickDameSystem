@@ -15,5 +15,9 @@ namespace TickCombat.Combat
         public float finalHeal;
 
         public float shieldGenerated;
+
+        // ===== BẮT BUỘC: TRACKING SHIELD ===== (MỚI)
+        public float shieldBefore;  // shield + shieldGenerated (trước absorb)
+        public float shieldAfter;   // shield sau absorb
     }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "TickCombat.Passive",
+  "rootNamespace": "TickCombat.Passive",
+  "references": ["TickCombat.Core"],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}

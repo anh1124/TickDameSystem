@@ -1,0 +1,7 @@
+{
+  "name": "TickCombat.Core",
+  "rootNamespace": "TickCombat",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}
